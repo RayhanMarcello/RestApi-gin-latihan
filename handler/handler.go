@@ -107,8 +107,35 @@ func UpdateHandler(c *gin.Context){
 		"message" : "sucsess update data by id",
 		"datas" : model,
 	})
+}
+
+func DeleteHandler(c *gin.Context){
+	var model entity.Model
+	id := c.Param("id")
+
+	// cek apakah ada di db
+	err := database.DB.First(&model, id).Error
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+		"message" : err.Error(),
+		})
+		return
+	}
+
+	// delete pada db
+	if err := database.DB.Delete(&model).Error;err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+		"message" : err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message" : "delete",
+		"delete" : model,
+	})
 
 
 }
 
-
+// intinya error time.Time() -> fix error handling dan struct
