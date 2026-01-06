@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"latihan-rest-api-gin-golang/database"
 	"latihan-rest-api-gin-golang/handler"
 
@@ -22,5 +23,36 @@ func main() {
 	v1.PATCH("/:id", handler.UpdateHandler)
 	v1.DELETE("/:id", handler.DeleteHandler)
 
-	router.Run(":8000")
+	// router.Run(":8000")
+	
+	person := Person{Name: "rayhan"}	
+	SayHello(person)
+	animal := Animal{Name : "kucing"}
+	SayHello(animal)
+}
+
+//interface == contract
+type HasName interface{
+	GetName()string
+}
+
+type Person struct{
+	Name string
+}
+
+func (person Person) GetName() string{
+	return person.Name
+}
+
+func SayHello(hasName HasName){
+	fmt.Println("hellow", hasName.GetName())
+}
+
+// contoh2
+type Animal struct{
+	Name string
+}
+
+func (animal Animal) GetName() string{
+	return animal.Name
 }
