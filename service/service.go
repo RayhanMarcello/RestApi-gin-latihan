@@ -46,6 +46,5 @@ func (s *productService) Create(name string, price int)(entity.Product,error){
 		Name : name,
 		Price: price,
 	}
-	return product,nil
-	
+	return s.repo.Create(product)
 }
