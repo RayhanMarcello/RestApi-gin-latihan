@@ -23,6 +23,7 @@ func main() {
 	r.GET("/product", h.GetAll)
 	r.GET("/product/:id", h.GetAllById)
 	r.POST("/product", h.Create)
+	r.DELETE("/product/:id", h.DeleteById)
 
 	r.Run(":8080")
 }
