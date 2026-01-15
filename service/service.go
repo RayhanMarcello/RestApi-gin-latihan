@@ -10,6 +10,7 @@ type ProductService interface {
 	GetAll() ([]entity.Product, error)
 	GetAllById(id int) (entity.Product,error)
 	Create(name string, price int) (entity.Product,error)
+	Deleted(id int)(entity.Product,error)
 }
 
 type productService struct{
@@ -47,4 +48,13 @@ func (s *productService) Create(name string, price int)(entity.Product,error){
 		Price: price,
 	}
 	return s.repo.Create(product)
+}
+
+func (s *productService) Deleted(id int)(entity.Product,error){
+	if id <= 0 {
+		return entity.Product{}, errors.New("id must grater than 0") 
+	}
+	p, err := s.repo.DeleteById(id)
+
+	return p, err
 }
