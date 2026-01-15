@@ -82,3 +82,26 @@ func (h *ProductHandler) GetAllById(c *gin.Context){
 		"data" : product,
 	})
 }
+
+func (h *ProductHandler) DeleteById(c *gin.Context){
+	idStr := c.Param("id")
+	id,err := strconv.ParseInt(idStr,10,64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"err" : err,
+		})
+		return
+	}
+
+	p, err := h.service.Deleted(int(id))
+	if err != nil{
+		c.JSON(http.StatusBadRequest, gin.H{
+			"err" : err,
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message" : "sucsess delete by id",
+		"data" : p.Name,
+	})
+}
