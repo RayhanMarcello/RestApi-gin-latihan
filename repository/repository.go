@@ -10,6 +10,7 @@ type Repository interface {
 	FindAll() ([]entity.Product, error)
 	Create(product entity.Product) (entity.Product, error)
 	FindByID(id int) (entity.Product, error)
+	DeleteById(id int) (entity.Product, error)
 }
 
 type repository struct {
@@ -34,8 +35,14 @@ func (r *repository) Create(product entity.Product) (entity.Product,error){
 func (r *repository) FindByID(id int) (entity.Product,error){
 	var product entity.Product
 	err := r.db.First(&product, id).Error
-	return product, err 
+	return product, err
 } 
+
+func (r *repository) DeleteById(id int)(entity.Product, error){
+	var product entity.Product
+	err := r.db.Delete(&product, id).Error
+	return product,err
+}
 
 func NewRepository(db *gorm.DB) *repository{
 	return &repository{db}
